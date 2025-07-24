@@ -1,0 +1,37 @@
+import { AxiosRequestConfig } from 'axios';
+import { z, ZodType } from 'zod';
+export interface Error {
+  message: string;
+}
+
+export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+  schema?: ZodType;
+}
+
+export interface Base {
+  metadata: {
+    aiAdjusted?: boolean;
+    question?: string;
+    answer?: string;
+  };
+}
+
+
+export const PersonSchema = z.object({
+  name: z.string(),
+  facts: z.object({
+    birth_date: z.string(),
+  })
+});
+ 
+
+export type Person = Base & z.infer<typeof PersonSchema>;
+
+
+export const NewPersonSchema = z.object({
+  name: z.string(),
+  favorite_date: z.string(),
+});
+
+export type NewPerson = Base & z.infer<typeof NewPersonSchema>;
+
