@@ -9,12 +9,9 @@ axios.interceptors.response.use(
       return response; // No schema, return response as is
     }
     const { success } = schema.safeParse(response.data);
-    if (success) {
-      response.data.metadata = { aiAdjusted: false }; 
-    }
     // success means the data matches the schema
     // if it does not match, we can ask OpenAI to adjust it    
-    return success ? response : tryAiAdjust(response, schema);
+    return success ? unAdjustedResponse(response) : tryAiAdjust(response, schema);
   },
   (error) => {
     // Handle response error
@@ -28,5 +25,10 @@ const tryAiAdjust = async (response: any, schema: CustomAxiosRequestConfig['sche
   const { success } = schema!.safeParse(adjustedData)
   // success means that the ai was able to match the schema
   // if it does not match, send the og response
-  return success ? { ...response, data: adjustedData } : response;
+  return success ? { ...response, data: adjustedData } : unAdjustedResponse(response);
+}
+
+const unAdjustedResponse = (response: any) => {
+  response.data.metadata = { aiAdjusted: false }; 
+  return response;
 }

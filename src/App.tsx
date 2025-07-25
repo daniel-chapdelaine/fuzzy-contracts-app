@@ -1,99 +1,91 @@
-import { useEffect, useState } from 'react';
-import { fetchDataFromServer } from './api';
-import { Person } from './types';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import Thesis from './routes/Thesis';
+import Demo from './routes/Demo';
+import Conclusion from './routes/Conclusion';
+import { RouteOptions } from './types';
+import ThesisTwo from './routes/ThesisTwo';
+import ThesisThree from './routes/ThesisThree';
+
+const ROUTES: RouteOptions[] = [
+  {
+    route: '/',
+    back: '',
+    next: '/thesis-continued',
+    monster: 'mon-0',
+  },
+  {
+    route: '/thesis-continued',
+    back: '/',
+    next: '/thesis-continued-again',
+    monster: 'mon-1',
+  },
+  {
+    route: '/thesis-continued-again',
+    back: '/thesis-continued',
+    next: '/demo',
+    monster: 'mon-2',
+  },
+  {
+    route: '/demo',
+    back: '/thesis-continued',
+    next: '/conclusion',
+    monster: 'mon-3',
+  },
+  {
+    route: '/conclusion',
+    back: '/demo',
+    next: '',
+    monster: 'mon-4',
+  },
+]
+
+function RoutingFeature() {
+  const pathname = useLocation().pathname; 
+  const { next, back, monster } = ROUTES.find(route => route.route === pathname) || ROUTES[0];
+  return (
+    <div style={{ height: '95vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'end' }}>
+      { next
+        ? <Link className='link' to={next} style={{ marginLeft: '2rem' }} >Next →</Link> 
+        : <div className='link' style={{ marginLeft: '2rem' }}>Thank you!</div> 
+      }
+        <img
+          src={require(`./images/${monster}.png`)}
+          alt="monster"
+          style={{
+            width: '120px',
+            height: '120px',
+            objectFit: 'cover',
+          }}
+        />
+      { back
+        ? <Link className='link' to={back} style={{ marginRight: '2rem' }} >← Back</Link> 
+        : <div className='link' style={{ marginRight: '2rem' }}>Hello</div> 
+      }
+    </div>
+  );
+}
 
 function App() {
-  const [data, setData] = useState<Person | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    fetchDataFromServer()
-      .then(async(result) => {
-        console.log('result', result);
-             
-        setData(result);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error?.message}</div>;
-
   return (
-    <div style={{ padding: '2rem 4rem', maxWidth: '750px'}}>
-      <h1>Profile</h1>
-      <div style={{fontWeight: 600}}>{data?.name}</div>
-      <div style={{paddingTop: '.5rem'}}>{data?.facts.birth_date}</div>
-      {/* for NewPerson schema */}
-      {/* <div style={{paddingTop: '.5rem'}}>{data?.favorite_date}</div> */}
-
-      <div
-        style={{
-          marginTop: '3rem',
-          backgroundColor: 'lightgray',
-          padding: '.25rem .5rem',
-        }}
-      >
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
-        <tbody>
-          <tr>
-        <th
-          style={{
-            whiteSpace: 'nowrap',
-            textAlign: 'left',
-            border: '1px solid #ccc',
-            padding: '0.25rem 0.5rem',
-          }}
-        >
-          AI adjusted
-        </th>
-        <td style={{ border: '1px solid #ccc', padding: '0.25rem 0.5rem' }}>
-          {data?.metadata.aiAdjusted ? 'Yep' : 'Nope'}
-        </td>
-          </tr>
-          {data?.metadata.question && (
-        <tr>
-          <th
-            style={{
-          whiteSpace: 'nowrap',
-          textAlign: 'left',
-          border: '1px solid #ccc',
-          padding: '0.25rem 0.5rem',
-            }}
-          >
-            AI question
-          </th>
-          <td style={{ border: '1px solid #ccc', padding: '0.25rem 0.5rem' }}>
-            {data.metadata.question}
-          </td>
-        </tr>
-          )}
-          {data?.metadata.answer && (
-        <tr>
-          <th
-            style={{
-          whiteSpace: 'nowrap',
-          textAlign: 'left',
-          border: '1px solid #ccc',
-          padding: '0.25rem 0.5rem',
-            }}
-          >
-            AI answer
-          </th>
-          <td style={{ border: '1px solid #ccc', padding: '0.25rem 0.5rem' }}>
-            {data.metadata.answer}
-          </td>
-        </tr>
-          )}
-        </tbody>
-      </table>
+    <Router>
+      <div style={{ display: 'flex', height: '100%', width: '100%' }}>
+        <div style={{ flexGrow: 1, padding: '2.5rem 6rem', maxWidth: '750px'}}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <h1 >Fuzzy Contracts</h1>
+            </div>
+            <div>
+              <Routes>
+                <Route path="/" element={<Thesis />} />
+                <Route path="/thesis-continued" element={<ThesisTwo />} />
+                <Route path="/thesis-continued-again" element={<ThesisThree />} />
+                <Route path="/demo" element={<Demo />} />
+                <Route path="/conclusion" element={<Conclusion />} />
+              </Routes>
+            </div>
+        </div>
+        <RoutingFeature/>
       </div>
-    </div>
+    </Router>
   );
 }
 

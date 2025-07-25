@@ -4,6 +4,13 @@ export interface Error {
   message: string;
 }
 
+export interface RouteOptions {
+  route: string;
+  back: string;
+  next: string;
+  monster: string;
+}
+
 export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   schema?: ZodType;
 }
