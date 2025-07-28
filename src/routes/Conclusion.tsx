@@ -4,7 +4,9 @@ function Conclusion() {
       <h2 style={{ fontSize: '18px' }}>Close</h2>
 
       <div style={{ fontFamily: 'monospace', fontSize: '14px', lineHeight: '1.5' }}>
-        <div style={{marginBottom: '3rem'}}> How did it go? Did it work? If it did:</div>
+        <div> Did it work?</div>
+        <div> How did it go?</div>
+        <div style={{marginBottom: '3rem'}}>What are the pros and cons of adding AI into dataflow like this?</div>
         <div>
           <strong>Benefits:</strong>
           <ul>
