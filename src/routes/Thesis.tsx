@@ -17,7 +17,7 @@ function Thesis() {
           
           <div>
             For example, imagine our client uses a field called "foo_date" for certain decisions. However, we 
-            realize "foo_date" isn’t quite accurate. Instead, we want to use a new field called "bar_date".
+            realize "foo_date" isn’t quite accurate. Instead, we want to use a new, more descriptive field called "bar_date".
             To accomplish this, developers typically replace "foo_date" with "bar_date" on both the client and the server.
           </div>
 
