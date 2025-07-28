@@ -4,9 +4,11 @@ import { CustomAxiosRequestConfig } from './types';
 
 axios.interceptors.response.use(
   (response) => {
-    const schema = (response.config as CustomAxiosRequestConfig).schema;
-    if (!schema) {
-      return response; // No schema, return response as is
+    const config = response.config as CustomAxiosRequestConfig;
+    const schema = config.schema;
+    if (!config.shouldAdjust || !schema) {
+      response.data.metadata = { aiAdjusted: "Off." }; 
+      return response; // No adjustment needed, return response as is
     }
     const { success } = schema.safeParse(response.data);
     // success means the data matches the schema
@@ -29,6 +31,6 @@ const tryAiAdjust = async (response: any, schema: CustomAxiosRequestConfig['sche
 }
 
 const unAdjustedResponse = (response: any) => {
-  response.data.metadata = { aiAdjusted: false }; 
+  response.data.metadata = { aiAdjusted: "Nope - data looked good." }; 
   return response;
 }

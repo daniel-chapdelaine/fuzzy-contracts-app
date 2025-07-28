@@ -13,11 +13,12 @@ export interface RouteOptions {
 
 export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   schema?: ZodType;
+  shouldAdjust?: boolean; // Optional flag to indicate if AI adjustment is needed
 }
 
 export interface Base {
   metadata: {
-    aiAdjusted?: boolean;
+    aiAdjusted?: string;
     question?: string;
     answer?: string;
   };

@@ -6,12 +6,14 @@ function Demo() {
   const [data, setData] = useState<Person | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const storedShouldAdjust = localStorage.getItem('shouldAdjust') === 'true' || false;
+  const [shouldAdjust, setShouldAdjust] = useState<boolean>(storedShouldAdjust);
+  const toggleAdjust = () => setShouldAdjust(prev => !prev);
 
   useEffect(() => {
-    fetchDataFromServer()
+    localStorage.setItem('shouldAdjust', shouldAdjust.toString());
+    fetchDataFromServer(shouldAdjust)
       .then(async(result) => {
-        console.log('result', result);
-             
         setData(result);
         setLoading(false);
       })
@@ -19,7 +21,7 @@ function Demo() {
         setError(err);
         setLoading(false);
       });
-  }, []);
+  }, [shouldAdjust]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error?.message}</div>;
@@ -27,9 +29,9 @@ function Demo() {
   return (
     <>
       <h2 style={{fontSize: '18px'}}>Demo</h2>
-      <div style={{ fontFamily: 'Arial, sans-serif' }}>
-        <h2 style={{fontSize: '20px'}}>User Profile</h2>
-        <div style={{display: 'flex', gap: '1rem', paddingTop: '1rem'}}>
+      <div style={{ fontFamily: 'Arial, sans-serif', padding: '2rem' }}>
+        <h3 style={{fontSize: '20px'}}>User Profile</h3>
+        <div style={{display: 'flex', gap: '1rem'}}>
           <div>
             <img
               src={require('../images/jeff.png')}
@@ -49,9 +51,29 @@ function Demo() {
             {/* <div style={{paddingTop: '.5rem'}}>{data?.favorite_date}</div> */}
           </div>
         </div>
+        <div style={{ display: 'flex', justifyContent: 'end',  marginTop: '7rem', borderTop: '1px solid black', paddingTop: '1rem' }}>
+          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', fontSize: '18px' }}>
+            AI Adjust Data
+            <button
+              onClick={toggleAdjust}
+              style={{
+                width: '2.5rem',
+                height: '2.5rem',
+                marginLeft: '.25rem',
+                backgroundImage: shouldAdjust ? `url(${require('../images/checked.png')})` : `url(${require('../images/unchecked.png')})`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                border: 'none',
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+              }}
+            />
+          </label>  
+        </div>
         <div
           style={{
-            marginTop: '7rem',
+            marginTop: '1rem',
             backgroundColor: 'lightgray',
             padding: '.25rem .5rem',
           }}
@@ -65,12 +87,13 @@ function Demo() {
               textAlign: 'left',
               border: '1px solid #ccc',
               padding: '0.25rem 0.5rem',
+              width: '150px'
             }}
           >
             AI adjusted
           </th>
           <td style={{ border: '1px solid #ccc', padding: '0.25rem 0.5rem' }}>
-            {data?.metadata.aiAdjusted ? 'Yep' : 'Nope'}
+            {data?.metadata.aiAdjusted}
           </td>
             </tr>
             {data?.metadata.question && (
@@ -81,6 +104,7 @@ function Demo() {
             textAlign: 'left',
             border: '1px solid #ccc',
             padding: '0.25rem 0.5rem',
+            width: '150px'
               }}
             >
               AI question
@@ -98,6 +122,7 @@ function Demo() {
             textAlign: 'left',
             border: '1px solid #ccc',
             padding: '0.25rem 0.5rem',
+            width: '150px'
               }}
             >
               AI answer
