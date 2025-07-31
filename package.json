@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@google/genai": "^1.12.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -21,7 +22,7 @@
     "zod": "^4.0.8"
   },
   "scripts": {
-    "start": "REACT_APP_GEMINI_API_KEY_API_KEY=$GEMINI_API_KEY_API_KEY react-scripts start",
+    "start": "REACT_APP_GEMINI_API_KEY=$GEMINI_API_KEY react-scripts start",
     "server": "nodemon server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

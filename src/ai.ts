@@ -1,12 +1,12 @@
-import axios from 'axios';
 import { CustomAxiosRequestConfig } from './types';
 import { getSchemaShape } from './utils';
+import { GoogleGenAI } from "@google/genai";
 
 const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
 
 export async function aiAdjust<T>(data: any, schema: CustomAxiosRequestConfig['schema']): Promise<T> {
   const schemaShape = getSchemaShape(schema!);
-  const question = `Modify ${JSON.stringify(data)} to match ${schemaShape} and ensure the response is valid JSON.`;
+  const question = `Modify ${JSON.stringify(data)} to match ${schemaShape} and ensure the response is valid JSON but not in a code block.`;
 
   const answer = await askAI(question);  
   let parsedAnswer;
@@ -20,13 +20,17 @@ export async function aiAdjust<T>(data: any, schema: CustomAxiosRequestConfig['s
   return parsedAnswer
 }
 
-export async function askAI(question: string): Promise<string> {  
-  // const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
 
-  // TODO: Implement the actual API call to Gemini
-
+export async function askAI(question: string): Promise<string> {    
+  const ai = new GoogleGenAI({apiKey: GEMINI_API_KEY});
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: question,
+  });
+  const answer = response.text?.trim() || "";
+  return answer;
   // For PersonSchema, the AI will return a response like:
-  return '{"name":"Jeff Godblum","facts":{"birth_date":"October 22, 1952"}}'
+  // return '{"name":"Jeff Godblum","facts":{"birth_date":"October 22, 1952"}}'
   // For NewPersonSchema, the AI will return a response like:
   // return '{"name":"Jeff Godblum","favorite_date":"October 22, 1952"}'
 }
