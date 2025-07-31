@@ -29,8 +29,4 @@ export async function askAI(question: string): Promise<string> {
   });
   const answer = response.text?.trim() || "";
   return answer;
-  // For PersonSchema, the AI will return a response like:
-  // return '{"name":"Jeff Godblum","facts":{"birth_date":"October 22, 1952"}}'
-  // For NewPersonSchema, the AI will return a response like:
-  // return '{"name":"Jeff Godblum","favorite_date":"October 22, 1952"}'
 }
