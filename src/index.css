@@ -22,8 +22,51 @@ code {
   height: 100%;
 }
 
+.base {
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.75;
+
+  > * {
+    margin-bottom: 16px;
+    padding-left: 16px;
+  }
+}
+
 .link {
   background-color: black;
   color: white;
   padding: 1px 5px;
+}
+
+.fuzzy {
+  filter: blur(2.5px);
+}
+
+.clear {
+  filter: blur(0);
+  transition: filter 0.6s ease;
+}
+
+.code-block {
+  background-color: #f4f4f4;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.no-bullet {
+  > * {
+    margin-left: -25px;
+    list-style-type: none;
+
+    .bad&::before {
+      content: "❌";
+      margin-right: 10px;
+    }
+
+    .good&::before {
+      content: "✅";
+      margin-right: 10px;
+    }
+  }
 }

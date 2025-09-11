@@ -1,28 +1,30 @@
+import { useClarify } from "../effects/useClarify";
+
 function Conclusion() {
+  useClarify();
   return (
     <>
-      <h2 style={{ fontSize: '18px' }}>Close</h2>
+      <h2 style={{ fontSize: '18px' }}>Conclusion</h2>
 
-      <div style={{ fontFamily: 'monospace', fontSize: '14px', lineHeight: '1.5' }}>
-        <div> Did it work?</div>
-        <div> How did it go?</div>
-        <div style={{marginBottom: '3rem'}}>What are the pros and cons of adding AI into dataflow like this?</div>
-        <div>
-          <strong>Benefits:</strong>
-          <ul>
-            <li>Simpler development: Fewer PRs, less cognitive overhead</li>
-            <li>Safer deployments: Less risk of downtime or client errors</li>
-            <li>Faster feature delivery: No strict order constraints</li>
-          </ul>
+      <div className="base">
+        <div className="fuzzy">
+          <div>
+            <strong>The Question:</strong> 
+            <div>
+              What structures are you living in that we may have outgrown?
+            </div>
+          </div>
         </div>
-        <div>
-          <strong>Risks:</strong>
-          <ul>
-            <li>Incorrect Guess: Difficult to determine accuracy since there are no errors</li>
-            <li>Performance Impact: Calling out to an api for small adjustments is expensive</li>
-          </ul>
+
+        <div className="fuzzy">
+          <strong>The End:</strong>
+          <div>
+            Questions? Comments? Thoughts?
+          </div>
+          <div>
+            Presentation can be found https://github.com/daniel-chapdelaine/fuzzy-contracts-app
+          </div>
         </div>
-        <div style={{marginTop: '3rem'}}> Questions?</div>
       </div>
     </>
   );
