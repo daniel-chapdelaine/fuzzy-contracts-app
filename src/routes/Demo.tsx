@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { fetchDataFromServer } from '../api';
-import { Person } from '../types';
+import { NewPerson, Person } from '../types';
 
 function Demo() {
   const [data, setData] = useState<Person | null>(null);
+  // const [data, setData] = useState<NewPerson | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const storedShouldAdjust = localStorage.getItem('shouldAdjust') === 'true' || false;
@@ -46,6 +47,7 @@ function Demo() {
           </div>
           <div style={{paddingTop: '1rem'}}>
             <div style={{fontWeight: 600}}>{data?.name}</div>
+            {/* for Person schema */}
             <div style={{paddingTop: '.5rem'}}>{data?.facts.birth_date}</div>
             {/* for NewPerson schema */}
             {/* <div style={{paddingTop: '.5rem'}}>{data?.favorite_date}</div> */}
