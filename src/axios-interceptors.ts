@@ -5,9 +5,10 @@ import { CustomAxiosRequestConfig } from './types';
 axios.interceptors.response.use(
   (response) => {
     const config = response.config as CustomAxiosRequestConfig;
+    // schema is the intended shape that this client expects
     const schema = config.schema;
     if (!config.shouldAdjust || !schema) {
-      response.data.metadata = { aiAdjusted: "Off." }; 
+      response.data.metadata = { aiAdjusted: "Nope - feature is off." }; 
       return response; // No adjustment needed, return response as is
     }
     const { success } = schema.safeParse(response.data);

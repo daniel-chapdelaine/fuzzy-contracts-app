@@ -9,7 +9,7 @@ export const fetchDataFromServer = async (shouldAdjust: boolean): Promise<Person
 };
 
 
-// export const fetDataFromServer = async (shouldAdjust: boolean): Promise<NewPerson> => {
+// export const fetchDataFromServer = async (shouldAdjust: boolean): Promise<NewPerson> => {
 //   const config: CustomAxiosRequestConfig = { schema: NewPersonSchema, shouldAdjust };
 //   const response = await axios.get<NewPerson>('http://localhost:4000/api/data', config);
 //   return response.data;
