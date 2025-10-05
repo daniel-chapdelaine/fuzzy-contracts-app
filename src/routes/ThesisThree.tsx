@@ -29,7 +29,7 @@ function ThesisTwo() {
 
         <div className="fuzzy">
           <strong>The Consequence:</strong>
-          <div>We only have two PR's and the structure looks like this:</div>
+          <div>We only have two PRs and the structure looks like this:</div>
           <ol>
             <li>Server side adds "favorite_date" to and removes "birth_date" from the data sent to the client</li>
             <li>Client replaces all instances of "birth_date" with "favorite_date"</li>

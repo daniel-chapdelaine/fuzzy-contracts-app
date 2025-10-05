@@ -59,7 +59,7 @@ In theory, if the server was ahead of the client in making it's changes the clie
 
 [The Consequence]
 
-In this case, the server side can add the new field and remove the old field, while the client updates to the shape it expects and can safely update any uses of that field. We now have 2 PR's instead of 3 and these PR's can be merged independently from one another. We would depend less on a very strict contract and could rely on a fuzzier one.
+In this case, the server side can add the new field and remove the old field, while the client updates to the shape it expects and can safely update any uses of that field. We now have 2 PRs instead of 3 and these PRs can be merged independently from one another. We would depend less on a very strict contract and could rely on a fuzzier one.
 
 Ok so I didn't want to let my idea just wander around the roads of theory so I built a little server with a single api endpoint and a client app that uses the data. Then I asked the powers that be at VitalSource for a gemini api key so I could make api calls to an AI framework in real time. And were going to test all this in a live demo. Im going to show you what happens to our little app if the strict contract is broken on either client or server side. Then I'm going to turn on an api interceptor that allows AI to change the data when a contract is not upheld in hopes that we can resolve the issue. For this I'm going to need to swap back and forth between my browser and my code editor to explain what's going on.
 
