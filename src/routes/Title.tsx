@@ -12,7 +12,7 @@ function Title() {
         </div>
         <div className="fuzzy">
           <strong>The Goal:</strong>
-          <div>Fuzzify the structures in you mind.</div>
+          <div>Fuzzify the structures in your mind.</div>
         </div>
       </div>
     </div>
